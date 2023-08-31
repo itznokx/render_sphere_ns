@@ -2,11 +2,16 @@
 #include "Vec3.h"
 using namespace std;
 
+void raycasting (Vec3 SphereCenter,Vec3 RayOrigin,int wJanela,int hJanela,float Sradius,float Djanela ){
 
+}
 int main(){
-	Vec3 teste (4,3,1);
-	Vec3 teste2 (3,3,10);
-	teste = teste+teste2;
-	cout << teste.x << endl << teste.y << endl << teste.z << endl;
+	float Sradius = 2;
+	int Djanela = 1;
+	Vec3 RayOrigin (0,0,0);
+	int wJanela = 640;
+	int hJanela = 480;
+	Vec3 SphereCenter (0,0,-(Djanela+Sradius));
+	raycasting(SphereCenter,RayOrigin,wJanela,hJanela,Sradius,Djanela);
 	return 0;
 }
