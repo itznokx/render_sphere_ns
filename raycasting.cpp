@@ -3,7 +3,7 @@
 using namespace std;
 
 void raycasting (Vec3 SphereCenter,Vec3 RayOrigin,int wJanela,int hJanela,float Sradius,float Djanela ){
-
+ //test
 }
 int main(){
 	float Sradius = 2;
