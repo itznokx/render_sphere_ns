@@ -34,6 +34,13 @@ Vec3 operator-(Vec3 v1, Vec3 v2){
 	float z = v1.z-v2.z;
 	return Vec3 (x,y,z);
 }
+void checkMatrix (int **matrix,int x, int y){
+    for (int l=0; l<y ; l++){
+        for (int c=0;c<x;c++){
+            cout << matrix[l][c] << endl;
+        }
+    }
+}
 int drawPixels (int **matrix,int wJanela,int hJanela){
 
     // Inicializar a biblioteca para poder usar suas funções
@@ -47,8 +54,8 @@ int drawPixels (int **matrix,int wJanela,int hJanela){
         "CG I - Raycaster",       // Título da Janela
         SDL_WINDOWPOS_UNDEFINED,        // Posição inicial X
         SDL_WINDOWPOS_UNDEFINED,        // Posição inicial Y
-        1280,                           // Largura da janela em pixels
-        720,                            // Altura da janela em pixels
+        wJanela,                           // Largura da janela em pixels
+        hJanela,                            // Altura da janela em pixels
         SDL_WINDOW_SHOWN                // Flags
     );
 
@@ -89,8 +96,9 @@ int drawPixels (int **matrix,int wJanela,int hJanela){
         //SDL_SetRenderDrawColor(renderer,  100, 100, 100, 255); // <---- Aqui escolhemos a cor que desejamos pintar
                                                           // DETALHE: essa função utiliza o padrão RGBA, para 
                                                           // o nosso propósito, podemos ignorar o último parâmetro
-        for (int x = 0; x < wJanela; x++) {
-            for (int y = 0; y < hJanela; y++) {
+        int pixelCount = 0;
+        for (int x = 0; x <= wJanela; x++) {
+            for (int y = 0; y <= hJanela; y++) {
             	if (matrix[y][x] == 0){
             		SDL_SetRenderDrawColor(renderer,  100, 100, 100, 255);
             		SDL_RenderDrawPoint(renderer, x, y); 
