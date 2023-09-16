@@ -3,7 +3,7 @@
 #include "Vec3.h"
 using namespace std;
 
-void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,int wJanela,int hJanela,float Sradius,float Djanela ){
+void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,Vec3 Light,int wJanela,int hJanela,float Sradius,float Djanela ){
 	int **matrix;
 	matrix = new int *[hJanela];
 	for (int i=0;i<=wJanela;i++){
@@ -21,7 +21,6 @@ void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,int wJanela,int hJanela,float S
 			float delta = pow(b,2) - 4.0f*(a*c);
 			if (delta >= 0.0f){
 				matrix[y][x] = 1;
-				cout << "y: "<< y << endl <<"x: "<< x << endl; 
 			}
 			else {
 				matrix[y][x] = 0;
@@ -33,14 +32,15 @@ void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,int wJanela,int hJanela,float S
 }
 
 int main(){
-	float Sradius =  20.0;
+	float Sradius =  30.0;
 	float Djanela = 1.0;
+	Vec3 Light (0.0f,5.0f,0.0f);
 	Vec3 RayOrigin (0.0f,0.0f,0.0f);
 	Vec3 teste(2,2,2);
 	int wJanela = 640;
 	int hJanela = 480;
 	Vec3 SphereCenter (0,0,-(Djanela+Sradius));
-	raycasting(SphereCenter,RayOrigin,wJanela,hJanela,Sradius,Djanela);
+	raycasting(SphereCenter,RayOrigin,Light,wJanela,hJanela,Sradius,Djanela);
 	
 	return 0;
 }

@@ -1,8 +1,17 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 using namespace std;
+class Color {
+    int r,g,b;
+    void setRGB (int _r,int _g,int _b){
+        this->r = _r;
+        this->g = _g;
+        this->b = _b;
+    }
+};
 class Vec3{
 public:
+    Color color;
 	float x,y,z;
 	Vec3 (float _x, float _y, float _z){
 		x = _x;
@@ -34,12 +43,18 @@ Vec3 operator-(Vec3 v1, Vec3 v2){
 	float z = v1.z-v2.z;
 	return Vec3 (x,y,z);
 }
+Vec3 arroba (Vec3 v1,Vec3 v2){
+    return Vec3(v1.x*v2.x,v1.y*v2.y,v1.z*v2.z);
+}
 void checkMatrix (int **matrix,int x, int y){
     for (int l=0; l<y ; l++){
         for (int c=0;c<x;c++){
             cout << matrix[l][c] << endl;
         }
     }
+}
+Vec3 setColor (Vec3 pInt,Vec3 lightPosition,Vec3 colorObj, Vec3){
+
 }
 int drawPixels (int **matrix,int wJanela,int hJanela){
 
@@ -100,7 +115,7 @@ int drawPixels (int **matrix,int wJanela,int hJanela){
         for (int x = 0; x <= wJanela; x++) {
             for (int y = 0; y <= hJanela; y++) {
             	if (matrix[y][x] == 0){
-            		SDL_SetRenderDrawColor(renderer,  100, 100, 100, 255);
+            		SDL_SetRenderDrawColor(renderer,  255, 255, 255, 255);
             		SDL_RenderDrawPoint(renderer, x, y); 
             	}else if (matrix[y][x] == 1){
             		SDL_SetRenderDrawColor(renderer,  255, 0, 0, 255);
