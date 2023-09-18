@@ -1,7 +1,9 @@
 #include <iostream>
+#include <cmath>
 #include <SDL2/SDL.h>
 using namespace std;
 class Color {
+public:
     int r,g,b;
     void setRGB (int _r,int _g,int _b){
         this->r = _r;
@@ -43,6 +45,13 @@ Vec3 operator-(Vec3 v1, Vec3 v2){
 	float z = v1.z-v2.z;
 	return Vec3 (x,y,z);
 }
+Vec3 operator/(Vec3 v1,float n){
+    return Vec3(v1.x/n,v1.y/n,v1.z/n);
+}
+Vec3 normalize (Vec3 v1){
+    double length = sqrt((v1.x*v1.x)+(v1.y*v1.y)+(v1.z+v1.z));
+    return Vec3(v1.x/length,v1.y/length,v1.z/length);
+}
 Vec3 arroba (Vec3 v1,Vec3 v2){
     return Vec3(v1.x*v2.x,v1.y*v2.y,v1.z*v2.z);
 }
@@ -53,10 +62,20 @@ void checkMatrix (int **matrix,int x, int y){
         }
     }
 }
-Vec3 setColor (Vec3 pInt,Vec3 lightPosition,Vec3 colorObj, Vec3){
-
+Color setColor (Vec3 SphereCenter,Vec3 dr,Vec3 RayOrigin,Vec3 pInt,Vec3 lightPosition,Vec3 colorObj, Vec3 lightIntesity, float m,float sphereRay){
+    Vec3 l = normalize(pInt-RayOrigin);
+    Vec3 n = (pInt-SphereCenter)/sphereRay;
+    Vec3 v = dr*(-1);
+    Vec3 r = 2*(l*n)*n-l;
+    Vec3 rDifusa    = (arroba(lightIntesity,colorObj)*((l*n)));
+    Vec3 rEspecular = (arroba(lightIntesity,colorObj)*(pow((v*r),m)));
+    Vec3 colorFinal = rDifusa + rEspecular;
+    Color final;
+    final.setRGB(colorFinal.x,colorFinal.y,colorFinal.z);
+    return final;
 }
-int drawPixels (int **matrix,int wJanela,int hJanela){
+
+int drawPixels (Color **matrix,int wJanela,int hJanela){
 
     // Inicializar a biblioteca para poder usar suas funções
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -114,14 +133,8 @@ int drawPixels (int **matrix,int wJanela,int hJanela){
         int pixelCount = 0;
         for (int x = 0; x <= wJanela; x++) {
             for (int y = 0; y <= hJanela; y++) {
-            	if (matrix[y][x] == 0){
-            		SDL_SetRenderDrawColor(renderer,  255, 255, 255, 255);
-            		SDL_RenderDrawPoint(renderer, x, y); 
-            	}else if (matrix[y][x] == 1){
-            		SDL_SetRenderDrawColor(renderer,  255, 0, 0, 255);
-            		SDL_RenderDrawPoint(renderer, x, y); 
-            	}
-                SDL_RenderDrawPoint(renderer, x, y);  //<---- Aqui escolhemos qual pixel vamos pintar
+            	SDL_SetRenderDrawColor(renderer,  matrix[y][x].r, matrix[y][x].g, matrix[y][x].b, 255);
+            	SDL_RenderDrawPoint(renderer, x, y); 
             }
         }
 

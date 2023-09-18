@@ -4,10 +4,10 @@
 using namespace std;
 
 void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,Vec3 Light,int wJanela,int hJanela,float Sradius,float Djanela ){
-	int **matrix;
-	matrix = new int *[hJanela];
+	Color **matrix;
+	matrix = new Color *[hJanela];
 	for (int i=0;i<=wJanela;i++){
-		matrix[i] = new int [wJanela];
+		matrix[i] = new Color [wJanela];
 	}
 	for (int y = 0;y<hJanela;y++){
 		for (int x=0; x<wJanela;x++){
@@ -19,11 +19,19 @@ void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,Vec3 Light,int wJanela,int hJan
 			float b = 2.0f*(w*dr);
 			float c = (w*w) - (pow(Sradius,2));
 			float delta = pow(b,2) - 4.0f*(a*c);
+			Vec3 lightPosition (0.0f,5.0f,0.0f);
+			Vec3 colorObj (255,0,0);
+			Vec3 lightIntesity (0.7f,0.7f,0.7f);
 			if (delta >= 0.0f){
-				matrix[y][x] = 1;
+				float tInt = (-b*sqrt(delta))/a;
+				Vec3 pInt = RayOrigin+(tInt*dr);
+				Color aux = setColor(SphereCenter,dr,RayOrigin,pInt,lightPosition,colorObj,lightIntesity, 1.0f,Sradius);
+				matrix[y][x] = aux;
 			}
 			else {
-				matrix[y][x] = 0;
+				Color aux;
+				aux.setRGB(0, 0, 0);
+				matrix[y][x] = aux;
 			}
 		}
 	}
