@@ -16,13 +16,17 @@ Color setColor (Vec3 SphereCenter,Vec3 dr,Vec3 RayOrigin,Vec3 pInt,Vec3 lightPos
     Vec3 n = ((pInt-SphereCenter)/sphereRay);
     Vec3 v = normalize(dr*(-1));
     Vec3 r = (2*(l*n)*n-l);
-    Vec3 rDifusa    = (arroba(lightIntesity,colorObj)*((l*n)));
+    float fDif = (l*n);
+    if (fDif < 0)
+        fDif = 0.0f;
+    Vec3 rDifusa    = (arroba(lightIntesity,colorObj)*(fDif));
     Vec3 k_2 = normalize(colorObj);
-    Vec3 rEspecular = (arroba(lightIntesity,k_2)*(v*r));
+    float fEsp = pow((v*r),m);
+    if (fEsp < 0)
+        fEsp = 0.0f;
+    Vec3 rEspecular = (arroba(lightIntesity,k_2)*(fEsp));
     Vec3 colorFinal = rDifusa+rEspecular;
     Color final;
-    if (colorFinal.x < 0)
-    	colorFinal.x = 0;
     final.setRGB(colorFinal.x,colorFinal.y,colorFinal.z);
     return final;
 }
@@ -122,7 +126,7 @@ void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,Vec3 Light,int wJanela,int hJan
 			if (delta >= 0.0f){
 				float tInt = (-b-sqrt(delta))/(2.0f*a);
 				Vec3 pInt = RayOrigin+(tInt*dr);
-				Color aux = setColor(SphereCenter,dr,RayOrigin,pInt,lightPosition,colorObj,lightIntesity, 0.0f,Sradius);
+				Color aux = setColor(SphereCenter,dr,RayOrigin,pInt,lightPosition,colorObj,lightIntesity, 1.0f,Sradius);
 				
 				matrix[y][x] = aux;
 			}
