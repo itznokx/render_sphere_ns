@@ -12,15 +12,17 @@ public:
     }
 };
 Color setColor (Vec3 SphereCenter,Vec3 dr,Vec3 RayOrigin,Vec3 pInt,Vec3 lightPosition,Vec3 colorObj, Vec3 lightIntesity, float m,float sphereRay){
-    Vec3 l = (pInt-lightPosition);
+    Vec3 l = normalize(lightPosition-pInt);
     Vec3 n = ((pInt-SphereCenter)/sphereRay);
     Vec3 v = normalize(dr*(-1));
-    Vec3 r = normalize(2*(l*n)*n-l);
-    Vec3 rDifusa    = (-1)*(arroba(lightIntesity,colorObj)*((l*n)));
+    Vec3 r = (2*(l*n)*n-l);
+    Vec3 rDifusa    = (arroba(lightIntesity,colorObj)*((l*n)));
     Vec3 k_2 = normalize(colorObj);
     Vec3 rEspecular = (arroba(lightIntesity,k_2)*(v*r));
-    Vec3 colorFinal = rDifusa;
+    Vec3 colorFinal = rDifusa+rEspecular;
     Color final;
+    if (colorFinal.x < 0)
+    	colorFinal.x = 0;
     final.setRGB(colorFinal.x,colorFinal.y,colorFinal.z);
     return final;
 }
@@ -114,7 +116,7 @@ void raycasting(Vec3 SphereCenter,Vec3 RayOrigin,Vec3 Light,int wJanela,int hJan
 			float b = 2.0f*(w*dr);
 			float c = (w*w) - (Sradius * Sradius);
 			float delta = pow(b,2) - 4.0f*(a*c);
-			Vec3 lightPosition (0.0f,3.0f,0.0f);
+			Vec3 lightPosition (0.0f,5.0f,0.0f);
 			Vec3 colorObj (255,0,0);
 			Vec3 lightIntesity (0.7f,0.7f,0.7f);
 			if (delta >= 0.0f){
