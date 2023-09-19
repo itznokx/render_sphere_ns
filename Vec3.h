@@ -28,6 +28,10 @@ Vec3 operator+(Vec3 v1, Vec3 v2){
 	float z = v1.z+v2.z;
 	return Vec3(x,y,z);
 }
+Vec3 operator+(Vec3 v1, float n){
+
+    return Vec3(v1.x+n,v1.y+n,v1.z+n);
+}
 Vec3 operator-(Vec3 v1, Vec3 v2){
 	float x = v1.x-v2.x;
 	float y = v1.y-v2.y;
